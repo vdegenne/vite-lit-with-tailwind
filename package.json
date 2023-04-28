@@ -1,0 +1,34 @@
+{
+  "name": "vite-lit-with-tailwind",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "module": "",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config vite.config.js dev/",
+    "prepare": "husky install"
+  },
+  "license": "MIT",
+  "keywords": [
+    "lit",
+    "vite",
+    "tailwind"
+  ],
+  "author": "Valentin Degenne <vdegenne@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vdegenne/vite-lit-with-tailwind.git"
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "lit": "^2.7.3",
+    "prettier": "^2.8.8",
+    "tailwindcss": "^3.3.2",
+    "vite": "^4.3.3"
+  },
+  "lint-staged": {
+    "**/*.{cjs,html,js,json,md,ts}": "prettier --write"
+  }
+}

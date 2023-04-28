@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <script>
+      window.log = function (data) {
+        const span = document.createElement('span');
+        span.innerText = data;
+        document.body.appendChild(span);
+      };
+    </script>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
