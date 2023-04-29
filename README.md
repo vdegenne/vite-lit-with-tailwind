@@ -36,7 +36,6 @@ export default defineConfig({
     postcss: {
       plugins: [
         tailwindcss({
-          darkMode: ['class', ':host(.dark)'], // [see dark mode](#dark-mode)
           content: ['./src/**/*.ts'] // your files
         })
       ],
@@ -46,6 +45,8 @@ export default defineConfig({
 ```
 
 ## Details
+
+### Base file
 
 By default, the decorator import these css rules :
 
@@ -83,9 +84,46 @@ class MyElement extends LitElement {
 }
 ```
 
-## Dark Mode
+## Dark mode
 
-Hello
+By default tailwind uses `media` dark mode, that means classes like `dark:x` will only work when the user's system uses dark mode. That's fine in most of the case, but sometimes you may want to decide which theme you want to use based on user's preference.  
+Problem is `tailwindcss` doesn't work well with Shadow DOMs.  
+To have control over this, you have to change your `vite.config.js` file to include this line:
+
+```js
+css: {
+  postcss: {
+    plugins: [
+      tailwindcss({
+        darkMode: ['class', ':host(.dark)'], // <-
+        content: ['...'],
+      }),
+    ];
+  }
+}
+```
+
+And uses `vite-lit-with-tailwind` specialized methods.
+
+```
+import {
+  turnDarkModeOn,
+  turnDarkModeOff,
+  toggleDarkMode
+} from 'vite-lit-with-tailwind';
+
+// This function adds `dark` class to `<html>`,
+// and to all Shadow DOMs using `@withTailwind` decorator.
+turnDarkModeOn()
+
+// This function removes `dark` class from `<html>`,
+// and from all Shadow DOMs using `@withTailwind` decorator.
+turnDarkModeOff()
+
+// This function calls one of the function above depending
+// on the current state of the theme.
+toggleDarkMode()
+```
 
 ## Limitations
 

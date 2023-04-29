@@ -4,6 +4,7 @@ import {
   withTailwind,
   turnDarkModeOn,
   turnDarkModeOff,
+  toggleDarkMode,
 } from '../src/withTailwind.js';
 // import baseStyles from './my-styles.css?inline';
 
@@ -18,5 +19,7 @@ class E1 extends LitElement {
 document.body.appendChild(new E1());
 document.body.appendChild(new E1());
 
-setTimeout(() => turnDarkModeOn(), 1000);
-setTimeout(() => turnDarkModeOff(), 2000);
+// setTimeout(() => turnDarkModeOn(), 1000);
+// setTimeout(() => turnDarkModeOff(), 2000);
+
+setInterval(() => toggleDarkMode(), 1000);

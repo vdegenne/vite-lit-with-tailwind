@@ -11,6 +11,7 @@ import {
 import tailwindStyles from '../tailwind.css?inline';
 
 const instances: Set<ReactiveElement> = new Set();
+let darkMode = false;
 
 class InstancesController implements ReactiveController {
   _host: ReactiveElement;
@@ -45,10 +46,20 @@ export function turnDarkModeOn() {
   for (const instance of instances) {
     instance.classList.add('dark');
   }
+  darkMode = true;
 }
 export function turnDarkModeOff() {
   document.documentElement.classList.remove('dark');
   for (const instance of instances) {
     instance.classList.remove('dark');
+  }
+  darkMode = false;
+}
+
+export function toggleDarkMode() {
+  if (darkMode) {
+    turnDarkModeOff();
+  } else {
+    turnDarkModeOn();
   }
 }
