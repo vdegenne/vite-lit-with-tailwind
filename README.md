@@ -105,7 +105,7 @@ css: {
 
 And uses `vite-lit-with-tailwind` specialized methods.
 
-```
+```javascript
 import {
   turnDarkModeOn,
   turnDarkModeOff,
