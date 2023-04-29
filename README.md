@@ -36,6 +36,7 @@ export default defineConfig({
     postcss: {
       plugins: [
         tailwindcss({
+          darkMode: ['class', ':host(.dark)'], // [see dark mode](#dark-mode)
           content: ['./src/**/*.ts'] // your files
         })
       ],
@@ -81,6 +82,10 @@ class MyElement extends LitElement {
   }
 }
 ```
+
+## Dark Mode
+
+Hello
 
 ## Limitations
 

@@ -1,12 +1,12 @@
 {
   "name": "vite-lit-with-tailwind",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "withTailwind decorator for lit in vite",
   "main": "out/withTailwind.js",
   "module": "out/withTailwind.js",
   "type": "module",
   "scripts": {
-    "dev": "vite --config vite.config.js dev/",
+    "dev": "vite --config vite.config.js test/",
     "build": "tsc --pretty",
     "prepare": "husky install"
   },

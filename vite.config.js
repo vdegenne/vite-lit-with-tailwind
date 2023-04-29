@@ -6,6 +6,7 @@ export default defineConfig({
     postcss: {
       plugins: [
         tailwindcss({
+          darkMode: ['class', ':host(.dark)'],
           content: ['**/*.ts'],
         }),
       ],

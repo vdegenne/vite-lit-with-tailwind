@@ -1,14 +1,22 @@
 import {LitElement, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
-import {withTailwind} from '../src/withTailwind.js';
+import {
+  withTailwind,
+  turnDarkModeOn,
+  turnDarkModeOff,
+} from '../src/withTailwind.js';
 // import baseStyles from './my-styles.css?inline';
 
-@customElement('my-element')
+@customElement('e-1')
 @withTailwind()
-class E extends LitElement {
+class E1 extends LitElement {
   render() {
-    return html`<span class="font-bold">Hello World!</span>`;
+    return html`<div class="text-red-500 dark:text-blue-500">Hello e1!</div>`;
   }
 }
 
-document.body.appendChild(new E());
+document.body.appendChild(new E1());
+document.body.appendChild(new E1());
+
+setTimeout(() => turnDarkModeOn(), 1000);
+setTimeout(() => turnDarkModeOff(), 2000);
