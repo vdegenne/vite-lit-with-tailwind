@@ -1,0 +1,7 @@
+.husky
+.vscode
+src
+test
+.prettierrc
+tsconfig.json
+vite.config.js

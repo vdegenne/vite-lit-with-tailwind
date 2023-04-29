@@ -1,6 +1,6 @@
 {
   "name": "vite-lit-with-tailwind",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "withTailwind decorator for lit in vite",
   "main": "out/withTailwind.js",
   "module": "out/withTailwind.js",

@@ -1,7 +1,7 @@
 # vite-lit-with-tailwind
 
 ```javascript
-import {LitElement} from 'lit';
+import {LitElement, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {withTailwind} from 'vite-lit-with-tailwind';
 
@@ -48,11 +48,11 @@ export default defineConfig({
 
 By default, the decorator import these css rules :
 
-````css
+```css
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
-``
+```
 
 So you can use the classes in your template.  
 If you wish to change the injected stylesheet, you can always pass one as the decorator argument.  
@@ -64,9 +64,10 @@ For instance:
 :host {
   @apply text-blue-500;
 }
-````
+```
 
-_(this file won't import any tailwind classes in the html template)_
+_(this file won't import any tailwind classes in the html template)_  
+and then
 
 ```javascript
 import myStyles from './my-styles.css?inline';
@@ -75,7 +76,7 @@ import myStyles from './my-styles.css?inline';
 class MyElement extends LitElement {
   render() {
     // Here the text will be blue but the `font-bold`
-    // class doesn't have effect anymore.
+    // class doesn't have any effect anymore.
     return html`<div class="font-bold">...</div>`;
   }
 }
@@ -83,4 +84,4 @@ class MyElement extends LitElement {
 
 ## Limitations
 
-You can use tailwind inside `css` literals.
+You can't use tailwind inside `css` literals.
