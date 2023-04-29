@@ -6,7 +6,7 @@ export default defineConfig({
     postcss: {
       plugins: [
         tailwindcss({
-          content: ['./**/*.ts'],
+          content: ['**/*.ts'],
         }),
       ],
     },
