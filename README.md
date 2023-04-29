@@ -86,7 +86,7 @@ class MyElement extends LitElement {
 
 ## Dark mode
 
-By default tailwind uses `media` dark mode, that means classes like `dark:x` will only work when the user's system uses dark mode. That's fine in most of the case, but sometimes you may want to decide which theme you want to use based on user's preference.  
+By default tailwind uses `media` dark mode, that means classes like `dark:x` will only work when the user's system uses dark mode. That's fine in most of the cases, but sometimes you may want to decide which theme you want to use based on user's preference.  
 Problem is `tailwindcss` doesn't work well with Shadow DOMs.  
 To have control over this, you have to change your `vite.config.js` file to include this line:
 
