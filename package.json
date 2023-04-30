@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "vite --config vite.config.js src/test/",
     "build": "tsc --pretty",
-    "build:demo": "vite build src/test --outDir ../../docs",
+    "build:demo": "vite build src/test --outDir ../../docs --base ./",
     "prepare": "husky install"
   },
   "license": "MIT",
