@@ -1,0 +1,7 @@
+:host {
+  @apply fixed inset-0
+}
+
+:host(.light) {
+  @apply font-bold;
+}

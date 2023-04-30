@@ -1,7 +1,7 @@
 .husky
 .vscode
 src
-test
+out/test
 .prettierrc
 tsconfig.json
 vite.config.js

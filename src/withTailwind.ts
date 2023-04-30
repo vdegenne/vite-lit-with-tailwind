@@ -6,7 +6,7 @@ import {
   getCompatibleStyle,
   ReactiveElement,
   ReactiveController,
-  ReactiveControllerHost,
+  CSSResultOrNative,
 } from 'lit';
 import tailwindStyles from '../tailwind.css?inline';
 
@@ -29,37 +29,139 @@ class InstancesController implements ReactiveController {
   }
 }
 
-export function withTailwind(inline?: string) {
+export function withTailwind(inline?: string | string[]) {
   return function (target: typeof ReactiveElement) {
     target.addInitializer((instance: ReactiveElement) => {
       new InstancesController(instance);
-      const style = getCompatibleStyle(unsafeCSS(inline ?? tailwindStyles));
-      (instance.constructor as typeof ReactiveElement).elementStyles.push(
-        style
-      );
+      const styles = [
+        ...(inline !== undefined
+          ? Array.isArray(inline)
+            ? inline
+            : [inline]
+          : tailwindStyles),
+      ];
+      for (const style of styles) {
+        // const style = getCompatibleStyle(unsafeCSS(inline ?? tailwindStyles));
+        (instance.constructor as typeof ReactiveElement).elementStyles.push(
+          getCompatibleStyle(unsafeCSS(style))
+        );
+      }
     });
   };
 }
 
-export function turnDarkModeOn() {
-  document.documentElement.classList.add('dark');
-  for (const instance of instances) {
-    instance.classList.add('dark');
-  }
-  darkMode = true;
-}
-export function turnDarkModeOff() {
-  document.documentElement.classList.remove('dark');
-  for (const instance of instances) {
-    instance.classList.remove('dark');
-  }
-  darkMode = false;
-}
+const localStorageHandler = 'vite-lit-with-tailwind';
+type ModeValues = (typeof ThemeManager.MODES)[keyof typeof ThemeManager.MODES];
 
-export function toggleDarkMode() {
-  if (darkMode) {
-    turnDarkModeOff();
-  } else {
-    turnDarkModeOn();
+export class ThemeManager {
+  static MODES = {
+    Light: 'light',
+    Dark: 'dark',
+    System: 'system',
+  } as const;
+
+  static #active = false;
+  static #mode: ModeValues = this.MODES.System;
+  static #lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+  static #darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+  static get prefersColorScheme(): 'light' | 'dark' | undefined {
+    if (this.#darkQuery.matches) {
+      return 'dark';
+    } else if (this.#lightQuery.matches) {
+      return 'light';
+    }
+    return undefined;
+  }
+
+  static get appliedTheme() {
+    if (document.documentElement.classList.contains('dark')) {
+      return 'dark';
+    } else if (document.documentElement.classList.contains('light')) {
+      return 'light';
+    } else {
+      return undefined;
+    }
+  }
+
+  static get mode() {
+    return this.#mode;
+  }
+  static set mode(value: ModeValues) {
+    this.#mode = value;
+    this.#applyThemeToDOM();
+    this.#saveModeInLocalStorage();
+  }
+
+  static init() {
+    if (this.#active) {
+      return;
+    }
+    this.#active = true;
+
+    // The light media query only get triggered
+    // when the dark one is changed
+    // this.#lightQuery.addEventListener(
+    //   'change',
+    //   this.onPrefersColorSchemeChange.bind(this)
+    // );
+    this.#darkQuery.addEventListener(
+      'change',
+      this.#onPrefersColorSchemeChange.bind(this)
+    );
+
+    this.#loadModeFromLocalStorage();
+    this.#applyThemeToDOM();
+  }
+
+  static #onPrefersColorSchemeChange(e: MediaQueryListEvent) {
+    this.#applyThemeToDOM();
+  }
+
+  static #loadModeFromLocalStorage() {
+    this.#mode =
+      (localStorage.getItem(`${localStorageHandler}:mode`) as ModeValues) ||
+      this.MODES.System;
+  }
+  static #saveModeInLocalStorage() {
+    localStorage.setItem(`${localStorageHandler}:mode`, this.#mode);
+  }
+
+  static #resolveTheme() {
+    switch (this.#mode) {
+      case 'light':
+      case 'dark':
+        return this.#mode;
+      case 'system':
+        switch (this.prefersColorScheme) {
+          case 'light':
+          case 'dark':
+            return this.prefersColorScheme;
+          default:
+            // undetermined (default to light)
+            return 'light';
+        }
+    }
+  }
+
+  static #applyThemeToDOM() {
+    const theme = this.#resolveTheme();
+    if (theme == this.appliedTheme) {
+      return;
+    }
+    this.#removeThemeClassesFromCandidates();
+    document.documentElement.classList.add(theme);
+    for (const instance of instances) {
+      instance.classList.add(theme);
+    }
+  }
+
+  static #removeThemeClassesFromCandidates() {
+    ['light', 'dark'].forEach((theme) => {
+      document.documentElement.classList.remove(theme);
+      for (const instance of instances) {
+        instance.classList.remove(theme);
+      }
+    });
   }
 }

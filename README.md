@@ -14,7 +14,8 @@ class MyElement extends LitElement {
 }
 ```
 
-Now you can use the classes in your templates.
+Now you can use the classes in your templates.  
+([Dark mode](#dark-mode) is also supported)
 
 ## Installation
 
@@ -24,31 +25,28 @@ Now you can use the classes in your templates.
 npm add -D vite-lit-with-tailwind tailwindcss
 ```
 
-### Modify your `vite.config.js` to activate tailwind
+### Activate tailwind
+
+(Prefer using `tailwind.config.js` so you can use [Tailwindcss VSCode extension](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss))
 
 ```javascript
-...
-import tailwindcss from 'tailwindcss';
-
-export default defineConfig({
-  ...
-  css: {
-    postcss: {
-      plugins: [
-        tailwindcss({
-          content: ['./src/**/*.ts'] // your files
-        })
-      ],
-    },
-  }
-})
+/* tailwind.config.js */
+export default {
+  content: ['**/*.{ts,js,html}'],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
 ```
+
+If you use `tailwind.config.js` You'll also need to create `postcss.config.js` to tell Vite to use postcss.
 
 ## Details
 
 ### Base file
 
-By default, the decorator import these css rules :
+By default, the decorator import all the tailwind layers.
 
 ```css
 @tailwind base;
@@ -56,25 +54,36 @@ By default, the decorator import these css rules :
 @tailwind components;
 ```
 
-So you can use the classes in your template.  
-If you wish to change the injected stylesheet, you can always pass one as the decorator argument.  
+`utilities` is what is needed to use tailwind class in your template, other layers are just setting some style defaults.
+
+If you wish to change the injected stylesheets, you can always them in the decorator.  
 For instance:
 
 ```css
-/* my-styles.css */
+/* tailwindBase.css */
+@tailwind base;
+@tailwind utilities; /* classes */
+
+@layer base {
+  ...;
+}
+```
+
+```css
+/* elementStyles.css */
 
 :host {
   @apply text-blue-500;
 }
 ```
 
-_(this file won't import any tailwind classes in the html template)_  
-and then
+And then in your element definition file:
 
 ```javascript
-import myStyles from './my-styles.css?inline';
+import tailwindBase from './tailwindBase.css?inline';
+import elementStyles from './elementStyles.css?inline';
 
-@withTailwind(myStyles)
+@withTailwind([tailwindBase, elementStyles])
 class MyElement extends LitElement {
   render() {
     // Here the text will be blue but the `font-bold`
@@ -84,47 +93,67 @@ class MyElement extends LitElement {
 }
 ```
 
+<span style="color:red">(It's recommended to define tailwind imported styles _and_ your element styles in separate files, because Vite will reprocess CSS files when they change, post-processing tailwind imports on each changes may cause slow reloads.)</span>
+
 ## Dark mode
 
-By default tailwind uses `media` dark mode, that means classes like `dark:x` will only work when the user's system uses dark mode. That's fine in most of the cases, but sometimes you may want to decide which theme you want to use based on user's preference.  
-Problem is `tailwindcss` doesn't work well with Shadow DOMs.  
-To have control over this, you have to change your `vite.config.js` file to include this line:
+By default tailwind uses `media` dark mode, that means classes like `dark:x` will only work when the user system uses dark mode. That's fine in most of the cases, but sometimes you may want to give end-user the choice to select a mode ('light', 'dark', or 'system'), here's how.
 
-```js
-css: {
-  postcss: {
-    plugins: [
-      tailwindcss({
-        darkMode: ['class', ':host(.dark)'], // <-
-        content: ['...'],
-      }),
-    ];
+First you'll need to change your tailwind config file to include this property:
+
+```json
+darkMode: ['class', ':host(.dark)'], // for dark:x classes in Shadow DOMs
+```
+
+And uses the `ThemeManager` utility class.
+
+```javascript
+import {ThemeManager} from 'vite-lit-with-tailwind';
+
+ThemeManager.init();
+// Calling this method the first time will set the mode to System,
+// and will use 'light'/'dark' theme depending on user system setttings.
+
+// You can change the mode at any time
+ThemeManager.mode = ThemeManager.MODES.Dark;
+ThemeManager.mode = ThemeManager.MODES.Light;
+ThemeManager.mode = ThemeManager.MODES.System;
+
+// The mode is saved in the localstorage
+// as to keep the state between page refresh.
+// Just make sure to call `init()` early when your app loads.
+```
+
+When the theme changes it either adds `class="light"` or `class="dark"` on `<html>` and on all your custom elements using the decorator.
+
+That means, you have to write that:
+
+In the top-level
+
+```html
+<style>
+  .light {
+    ...;
   }
+  .dark {
+    ...;
+  }
+</style>
+```
+
+In your custom elements you can uses `dark:x` classes and
+
+```css
+:host(.dark) {
+  ...;
+}
+:host(.light) {
+  ...;
 }
 ```
 
-And uses `vite-lit-with-tailwind` specialized methods.
-
-```javascript
-import {
-  turnDarkModeOn,
-  turnDarkModeOff,
-  toggleDarkMode
-} from 'vite-lit-with-tailwind';
-
-// This function adds `dark` class to `<html>`,
-// and to all Shadow DOMs using `@withTailwind` decorator.
-turnDarkModeOn()
-
-// This function removes `dark` class from `<html>`,
-// and from all Shadow DOMs using `@withTailwind` decorator.
-turnDarkModeOff()
-
-// This function calls one of the function above depending
-// on the current state of the theme.
-toggleDarkMode()
-```
+for specific top styles.
 
 ## Limitations
 
-You can't use tailwind inside `css` literals.
+At the moment you can't use tailwind inside `css` literals.
