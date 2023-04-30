@@ -99,10 +99,19 @@ class MyElement extends LitElement {
 
 By default tailwind uses `media` dark mode, that means classes like `dark:x` will only work when the user system uses dark mode. That's fine in most of the cases, but sometimes you may want to give end-user the choice to select a mode ('light', 'dark', or 'system'), here's how.
 
-First you'll need to change your tailwind config file to include this property:
+First you'll need to change your tailwind config file to include this rule:
 
-```json
-darkMode: ['class', ':host(.dark)'], // for dark:x classes in Shadow DOMs
+```js
+/* tailwind.config.js */
+export default {
+  darkMode: ['class', ':host(.dark)'], // for dark:x classes in Shadow DOMs
+  content: ['**/*.{ts,js,html}'],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+
 ```
 
 And uses the `ThemeManager` utility class.
