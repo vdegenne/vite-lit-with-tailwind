@@ -18,7 +18,7 @@ class E extends LitElement {
       <button class="px-2 py-1 cursor-pointer" @click=${this._systemMode}>
         System
       </button>
-      <div class="text-blue-500 dark:text-red-200 m-5">Hello World!</div>
+      <div class="text-gray-600 dark:text-gray-100 m-5">Hello World!</div>
     `;
   }
 
