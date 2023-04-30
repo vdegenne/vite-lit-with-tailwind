@@ -170,7 +170,7 @@ And you can use these css selectors to apply global conditional styles in your e
 }
 ```
 
-_(note: you can always use `:host(.light) to apply rules when `class="light"` is specifically used on your element)_
+_(note: you can always use `:host(.light)` to apply rules when `class="light"` is specifically used on your element)_
 
 ## Limitations
 
