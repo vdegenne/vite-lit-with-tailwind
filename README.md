@@ -71,7 +71,6 @@ For instance:
 
 ```css
 /* elementStyles.css */
-
 :host {
   @apply text-blue-500;
 }
@@ -86,8 +85,6 @@ import elementStyles from './elementStyles.css?inline';
 @withTailwind([tailwindBase, elementStyles])
 class MyElement extends LitElement {
   render() {
-    // Here the text will be blue but the `font-bold`
-    // class doesn't have any effect anymore.
     return html`<div class="font-bold">...</div>`;
   }
 }
