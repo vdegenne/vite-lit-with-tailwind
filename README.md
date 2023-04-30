@@ -56,7 +56,7 @@ By default, the decorator import all the tailwind layers.
 
 `utilities` is what is needed to use tailwind class in your template, other layers are just setting some style defaults.
 
-If you wish to change the injected stylesheets, you can always them in the decorator.  
+If you wish to change the injected stylesheets, you can always pass them in the decorator.  
 For instance:
 
 ```css
