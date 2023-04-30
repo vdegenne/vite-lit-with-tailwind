@@ -108,7 +108,6 @@ export default {
   },
   plugins: [],
 };
-
 ```
 
 And uses the `ThemeManager` utility class.
@@ -147,18 +146,30 @@ In the top-level
 </style>
 ```
 
-In your custom elements you can uses `dark:x` classes and
+to apply global conditional styles.
 
-```css
-:host(.dark) {
-  ...;
-}
-:host(.light) {
-  ...;
+And in your custom elements you can use `dark:x` in template:
+
+```javascript
+class MyElement extends LitElement {
+  render() {
+    return html` <span class="text-black dark:text-white">Hello</span> `;
+  }
 }
 ```
 
-for specific top styles.
+And you can use these css selectors to apply global conditional styles in your element:
+
+```css
+:host(.dark) {
+  @apply bg-gray-600;
+  ...;
+}
+:host(.light) {
+  @apply bg-gray-100;
+  ...;
+}
+```
 
 ## Limitations
 
