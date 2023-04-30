@@ -6,12 +6,10 @@ import {
   getCompatibleStyle,
   ReactiveElement,
   ReactiveController,
-  CSSResultOrNative,
 } from 'lit';
 import tailwindStyles from '../tailwind.css?inline';
 
 const instances: Set<ReactiveElement> = new Set();
-let darkMode = false;
 
 class InstancesController implements ReactiveController {
   _host: ReactiveElement;
@@ -110,7 +108,8 @@ export class ThemeManager {
       this.#onPrefersColorSchemeChange.bind(this)
     );
 
-    this.#loadModeFromLocalStorage();
+    this.#loadModeValue();
+    this.#saveModeInLocalStorage();
     this.#applyThemeToDOM();
   }
 
@@ -118,7 +117,7 @@ export class ThemeManager {
     this.#applyThemeToDOM();
   }
 
-  static #loadModeFromLocalStorage() {
+  static #loadModeValue() {
     this.#mode =
       (localStorage.getItem(`${localStorageHandler}:mode`) as ModeValues) ||
       this.MODES.System;
