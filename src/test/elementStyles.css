@@ -1,7 +1,7 @@
 :host {
-  @apply fixed inset-0
+  @apply fixed inset-0 p-2;
+  @apply bg-gray-100;
 }
-
-:host(.light) {
-  @apply font-bold;
+:host(.dark) {
+  @apply bg-gray-600
 }

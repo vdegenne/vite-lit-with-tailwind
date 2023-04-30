@@ -1,8 +1,8 @@
-@tailwind base;
+/* @tailwind base; */
 @tailwind utilities;
 
-@layer base {
+/* @layer base {
   button {
     background-color: red;
   }
-}
+} */
