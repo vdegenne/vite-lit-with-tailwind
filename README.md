@@ -161,15 +161,16 @@ class MyElement extends LitElement {
 And you can use these css selectors to apply global conditional styles in your element:
 
 ```css
+:host {
+  @apply bg-gray-100; /* default */
+}
 :host(.dark) {
   @apply bg-gray-600;
   ...;
 }
-:host(.light) {
-  @apply bg-gray-100;
-  ...;
-}
 ```
+
+_(note: you can always use `:host(.light) to apply rules when `class="light"` is specifically used on your element)_
 
 ## Limitations
 
