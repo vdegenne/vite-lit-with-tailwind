@@ -93,7 +93,7 @@ class MyElement extends LitElement {
 }
 ```
 
-<span style="color:red">(It's recommended to define tailwind imported styles _and_ your element styles in separate files, because Vite will reprocess CSS files when they change, post-processing tailwind imports on each changes may cause slow reloads.)</span>
+<span style="color:red">(It's recommended to define tailwind imported styles _and_ your element styles in separate files, because Vite will reprocess CSS files when they change, post-processing tailwind imports on each change may cause slow reloads.)</span>
 
 ## Dark mode
 
