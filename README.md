@@ -14,7 +14,7 @@ class MyElement extends LitElement {
 }
 ```
 
-([DEMO](https://vdegenne.github.io/vite-lit-with-tailwind/))
+[DEMO](https://vdegenne.github.io/vite-lit-with-tailwind/)
 
 Now you can use the classes in your templates.  
 [Dark mode](#dark-mode) is also supported.
