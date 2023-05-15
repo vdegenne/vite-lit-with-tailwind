@@ -112,9 +112,7 @@ class MyElement extends LitElement {
 ### Install this package
 
 ```
-
 npm add -D vite-lit-with-tailwind
-
 ```
 
 ### Create tailwind config file
