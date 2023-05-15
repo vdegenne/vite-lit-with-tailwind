@@ -48,8 +48,8 @@ import elementStyles from './element-styles.css?inline'
 ### Multiple styles with default tailwind:
 
 ```javascript
-import elementStyles1 from './element-styles.css?inline'
-import elementStyles2 from './element-styles.css?inline'
+import elementStyles1 from './element-styles1.css?inline'
+import elementStyles2 from './element-styles2.css?inline'
 
 @withTailwind([elementStyles1, elementStyles2])
 ```
