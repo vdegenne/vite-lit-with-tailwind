@@ -3,13 +3,8 @@
  * Copyright (c) 2023 Valentin Degenne
  * SPDX-License-Identifier: MIT
  */
-import {
-  unsafeCSS,
-  getCompatibleStyle,
-  ReactiveElement,
-  ReactiveController,
-  CSSResultOrNative,
-} from 'lit';
+import {getCompatibleStyle, unsafeCSS} from 'lit';
+import type {ReactiveElement, ReactiveController, CSSResultOrNative} from 'lit';
 import tailwindBaseStylesContent from '../tailwind.css?inline';
 
 let _tailwindBaseStyles = tailwindBaseStylesContent;
