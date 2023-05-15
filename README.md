@@ -98,6 +98,8 @@ import tailwindBase from './tailwind-base.css?inline';
 @withTailwind([elementStyles1, elementStyles2], tailwindBase)
 ```
 
+_(This will override the default tailwind base styles just for the current custom element, no globally.)_
+
 ## Installation
 
 ### Install this package
