@@ -6,7 +6,7 @@
   "module": "out/withTailwind.js",
   "type": "module",
   "scripts": {
-    "dev": "vite --config vite.config.js src/test/",
+    "dev": "vite src/test/",
     "build": "wireit",
     "build:demo": "vite build src/test --outDir ../../docs --base ./",
     "prepare": "husky install"
@@ -40,6 +40,7 @@
     "lint-staged": "^13.2.2",
     "lit": "^2.7.4",
     "prettier": "^2.8.8",
+    "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4",
     "vite": "^4.3.6",
     "wireit": "^0.9.5"

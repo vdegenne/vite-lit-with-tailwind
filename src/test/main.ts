@@ -1,11 +1,11 @@
 import {LitElement, PropertyValueMap, html, nothing, unsafeCSS} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {withTailwind, ThemeManager} from '../withTailwind.js';
-import tailwindBase from './tailwindBase.css?inline';
+// import tailwindBase from './tailwindBase.css?inline';
 import elementStyles from './elementStyles.css?inline';
 
 @customElement('e-1')
-@withTailwind([tailwindBase, elementStyles])
+@withTailwind(elementStyles)
 class E extends LitElement {
   @state() mode = ThemeManager.mode;
   @property({attribute: true, reflect: true})
