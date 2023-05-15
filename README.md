@@ -148,7 +148,7 @@ By default tailwind uses `media` dark mode, that means classes like `dark:x` wil
 First you'll need to add this line in your `tailwind.config.js`:
 
 ```js
-darkMode: ['class', ':host(.dark)'], // for dark:x classes in Shadow DOMs
+darkMode: ['class', ':host(.dark)']; // for dark:x classes in Shadow DOMs
 ```
 
 And uses the `ThemeManager` utility class.
