@@ -103,13 +103,16 @@ export default {
 };
 ```
 
-## Dark mode
+That's about all, now you can use tailwind and the decorator.  
+If you want to support manual dark mode, keep reading!
+
+## "Manual" Dark mode
 
 By default tailwind uses `media` dark mode, that means classes like `dark:x` will only work when the user system uses dark mode. That's fine in most of cases, but sometimes you may want to give end-user the choice to select a mode ('light', 'dark', or 'system'), here's how:
 
 First you'll need to add this line in your `tailwind.config.js`:
 
-```json
+```js
 darkMode: ['class', ':host(.dark)'], // for dark:x classes in Shadow DOMs
 ```
 

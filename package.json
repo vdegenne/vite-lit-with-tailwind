@@ -44,13 +44,13 @@
     "vite": "^4.3.6",
     "wireit": "^0.9.5"
   },
-  "lint-staged": {
-    "**/*.{cjs,html,js,json,md,ts}": "prettier --write"
-  },
   "files": [
     "/out",
     "!/out/test",
     "/tailwind.css",
     "LICENSE"
-  ]
+  ],
+  "lint-staged": {
+    "**/*.{cjs,html,js,json,md,ts}": "prettier --write"
+  }
 }
