@@ -22,7 +22,7 @@ class MyElement extends LitElement {
 
 ## Features
 
-- Easy install.
+- Easy to install.
 - Declarative customizable and easy to use decorator.
 - Constructed Stylesheets Cache system.
 - [Dark mode System](#dark-mode) is also supported.
@@ -37,75 +37,68 @@ Behind the scene, the decorator only injects tailwind utilities into your custom
 
 So you can use the classes in your template.
 
-### _Element styles_ VS _Tailwind base styles_
+### Tailwind base styles
 
-It's usually a good thing to write your tailwind base styles and your custom elements styles into separate files.
+Chances that you will want to use your own tailwind base file as the default are high.  
+You can use the exported method `loadTailwindBaseStyles` to achieve that:
 
-Here's different approaches using the decorator:
+```typescript
+// early in your code
+import {loadTailwindBaseStyles} from 'vite-lit-with-tailwind';
+import tailwindBase from './tailwind.css?inline';
 
-### One style with default tailwind:
+await loadTailwindBaseStyles(tailwindBase);
+```
 
-```javascript
-import elementStyles from './element-styles.css?inline'
+<details>
+<summary>Example of `tailwind.css` file</summary>
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  p {
+    @apply my-9;
+  }
+  /* ... */
+}
+/* ... */
+```
+
+</details>
+
+### @withTailwind() decorator
+
+When used without any arguments the decorator only injects the default tailwind base styles (utilities only) or the one you specified with the method above.  
+You can pass your element custom styles directly in the decorator, for example
+
+```typescript
+import elementStyles from './my-element-styles.css?inline';
 
 @withTailwind(elementStyles)
 ```
 
-### Multiple styles with default tailwind:
+It's also possible to use an array of styles if you have different styles to apply.
 
-```javascript
-import elementStyles1 from './element-styles1.css?inline'
-import elementStyles2 from './element-styles2.css?inline'
+```typescript
+import elementStyles1 from './my-element-styles1.css?inline';
+import elementStyles2 from './my-element-styles2.css?inline';
 
 @withTailwind([elementStyles1, elementStyles2])
 ```
 
-### No element styles, custom tailwind base definition:
-
-```javascript
-import tailwindBase from './tailwind-base.css?inline'
-
-@withTailwind([], tailwindBase)
-```
-
-As you can see, the first argument is an array containing element styles (optional),  
-and the second argument is the tailwind base definition (optional too.)
-
-<details>
-<summary>Detailed example</summary>
-
-```css
-/* tailwindBase.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
-
-```css
-/* elementStyles.css */
-:host {
-  @apply bg-gray-500;
-}
-```
+Finally if you want to apply a specific tailwind base style to your element you can provide it as a second argument
 
 ```typescript
-/* my-element.ts */
-import {LitElement, html} from 'lit';
-import {customElement} from 'lit/decorators.js';
-import {withTailwind} from 'vite-lit-with-tailwind.js';
-import elementStyles from './elementStyles.css?inline';
-import tailwindBase from '../tailwindBase.css?inline';
+// ...
+import tailwindBase from './tailwind-base.css?inline';
 
-@customElement('my-element')
-@withTailwind(elementStyles, tailwindBase)
-class MyElement extends LitElement {
-  render() {
-    return html`<div class="text-red-500 p-5">...</div> `;
-  }
-}
+@withTailwind([elementStyles1, elementStyles2], tailwindBase)
 ```
 
-</details>
+_(This will override the default tailwind base styles just for the current custom element, no globally.)_
 
 ## Installation
 
