@@ -65,12 +65,32 @@ import tailwindBase from './tailwind-base.css?inline'
 As you can see, the first argument is an array containing element styles (optional),  
 and the second argument is the tailwind base definition (optional too.)
 
+<details>
+<summary>Detailed example</summary>
+```typescript
+import {LitElement, html} from 'lit';
+import {customElement} from 'lit/decorators.js';
+import {withTailwind} from 'vite-lit-with-tailwind.js';
+import elementStyles from './elementStyles.css?inline';
+
+@customElement('my-element')
+@withTailwind(elementStyles)
+class MyElement extends LitElement {
+  render() {
+    return html`<div class="bg-gray-500 p-5">...</div> `;
+  }
+}
+```
+</details>
+
 ## Installation
 
 ### Install this package
 
 ```
+
 npm add -D vite-lit-with-tailwind
+
 ```
 
 ### Create tailwind config file
