@@ -10,7 +10,13 @@ import {
   ReactiveController,
   CSSResultOrNative,
 } from 'lit';
-import _tailwindBaseStyles from '../tailwind.css?inline';
+import tailwindBaseStylesContent from '../tailwind.css?inline';
+
+let _tailwindBaseStyles = tailwindBaseStylesContent;
+
+export async function loadTailwindBaseStyles(content: string) {
+  _tailwindBaseStyles = content;
+}
 
 const cachedStyleSheets: {[plain: string]: CSSResultOrNative | undefined} = {};
 

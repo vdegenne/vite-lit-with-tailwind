@@ -1,5 +1,11 @@
 # ChangeLog
 
+## 2.1.0
+
+### Minor Changes
+
+- Add convenient `loadTailwindBaseStyles()` function for overriding the framework's default.
+
 ## 2.0.0
 
 ### Major Changes
