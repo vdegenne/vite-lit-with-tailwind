@@ -67,20 +67,38 @@ and the second argument is the tailwind base definition (optional too.)
 
 <details>
 <summary>Detailed example</summary>
+
+```css
+/* tailwindBase.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+```css
+/* elementStyles.css */
+:host {
+  @apply bg-gray-500;
+}
+```
+
 ```typescript
+/* my-element.ts */
 import {LitElement, html} from 'lit';
 import {customElement} from 'lit/decorators.js';
 import {withTailwind} from 'vite-lit-with-tailwind.js';
 import elementStyles from './elementStyles.css?inline';
+import tailwindBase from '../tailwindBase.css?inline';
 
 @customElement('my-element')
-@withTailwind(elementStyles)
+@withTailwind(elementStyles, tailwindBase)
 class MyElement extends LitElement {
   render() {
-    return html`<div class="bg-gray-500 p-5">...</div> `;
+    return html`<div class="text-red-500 p-5">...</div> `;
   }
 }
 ```
+
 </details>
 
 ## Installation
