@@ -14,6 +14,10 @@ class MyElement extends LitElement {
 
 [DEMO](https://vdegenne.github.io/vite-lit-with-tailwind/)
 
+- [Details](#details)
+- [Installation](#installation)
+- [Manual Dark mode](#"manual"-dark-mode)
+
 ## Features
 
 - Easy install.
