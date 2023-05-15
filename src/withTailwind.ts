@@ -1,13 +1,18 @@
 /**
- * 2023 \Valentin Degenne
+ * @license
+ * Copyright (c) 2023 Valentin Degenne
+ * SPDX-License-Identifier: MIT
  */
 import {
   unsafeCSS,
   getCompatibleStyle,
   ReactiveElement,
   ReactiveController,
+  CSSResultOrNative,
 } from 'lit';
-import tailwindStyles from '../tailwind.css?inline';
+import _tailwindBaseStyles from '../tailwind.css?inline';
+
+const cachedStyleSheets: {[plain: string]: CSSResultOrNative | undefined} = {};
 
 const instances: Set<ReactiveElement> = new Set();
 
@@ -27,23 +32,43 @@ class InstancesController implements ReactiveController {
   }
 }
 
-export function withTailwind(inline?: string | string[]) {
+function getStylesheet(input: string) {
+  return (
+    cachedStyleSheets[input] ??
+    (cachedStyleSheets[input] = getCompatibleStyle(unsafeCSS(input)))
+  );
+}
+
+export function withTailwind(
+  elementStyles?: string | string[],
+  tailwindBase?: string
+) {
   return function (target: typeof ReactiveElement) {
+    // Here one trick is to called protected method `finalize`
+    // to make sure the `elementStyles` static field is
+    // initialized with user-custom styles.
+    // @ts-ignore
+    target.finalize();
+    // add tailwind styles
+    tailwindBase = tailwindBase ?? _tailwindBaseStyles;
+    target.elementStyles.unshift(getStylesheet(tailwindBase));
+    // add element-specific styles
+    if (elementStyles !== undefined) {
+      for (const style of Array.isArray(elementStyles)
+        ? elementStyles
+        : [elementStyles]) {
+        const stylesheet = getStylesheet(style);
+        const elementStyles = target.elementStyles;
+        if (elementStyles.includes(stylesheet)) {
+          return;
+        } else {
+          elementStyles.push(stylesheet);
+        }
+      }
+    }
+    // dark/light mode controller on instances
     target.addInitializer((instance: ReactiveElement) => {
       new InstancesController(instance);
-      const styles = [
-        ...(inline !== undefined
-          ? Array.isArray(inline)
-            ? inline
-            : [inline]
-          : tailwindStyles),
-      ];
-      for (const style of styles) {
-        // const style = getCompatibleStyle(unsafeCSS(inline ?? tailwindStyles));
-        (instance.constructor as typeof ReactiveElement).elementStyles.push(
-          getCompatibleStyle(unsafeCSS(style))
-        );
-      }
     });
   };
 }
@@ -99,10 +124,6 @@ export class ThemeManager {
 
     // The light media query only get triggered
     // when the dark one is changed
-    // this.#lightQuery.addEventListener(
-    //   'change',
-    //   this.onPrefersColorSchemeChange.bind(this)
-    // );
     this.#darkQuery.addEventListener(
       'change',
       this.#onPrefersColorSchemeChange.bind(this)
